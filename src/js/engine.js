@@ -3,38 +3,25 @@ import * as THREE from 'three'
 const OrbitControls = require('three-orbit-controls')(THREE)
 
 
-const canvas = document.querySelector('.main-canvas')
 
+function create_engine () {
 
-var scene;
-var camera;
-var renderer;
+  const scene = new THREE.Scene()
+  scene.background = new THREE.Color(0xf0ffff)
 
+  const renderer = new THREE.WebGLRenderer({ antialias: true })
 
-
-function init_scene() {
-
-  scene = new THREE.Scene()
-  scene.background = new THREE.Color(0xffffff)
-
-  renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: true
-  })
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  document.body.appendChild(renderer.domElement)
-
-  camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.001, 100)
+  const camera = new THREE.PerspectiveCamera(52, 1, 0.001, 100)
   camera.position.set(0, 0, 1)
-  const constrols = new OrbitControls(camera, renderer.domElement)
+  // const constrols = new OrbitControls(camera, renderer.domElement)
 
+  return {
+    scene,
+    renderer,
+    camera
+  }
 }
 
-init_scene()
 
 
-console.log(window);
-
-
-
-export {scene, camera, renderer}
+export {create_engine}

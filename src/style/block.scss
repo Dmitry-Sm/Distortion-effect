@@ -1,0 +1,20 @@
+.block {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  top: 300px;
+  left: 0;
+  width: 100%;
+  min-width: 800px;
+  height: 50vw;
+  background: #acc;
+}
+
+
+
+@media (max-width: 800px) {
+  .block {
+    height: 100vw;
+  }
+}

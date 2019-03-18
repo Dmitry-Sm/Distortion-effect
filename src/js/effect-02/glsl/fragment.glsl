@@ -86,27 +86,35 @@ float impulse( float k, float x ) {
 
 void main() {
 
-    vec2 uv = vec2(vUv.x, vUv.y);
-    if (u_rate > 1.) {
-        uv.y = (uv.y - 0.5) / u_rate + 0.5;
-    }
-    vec4 img = texture2D(u_texture2, uv);
+    vec2 uv = vUv;
+    // if (u_rate > 1.) {
+    //     uv.y = (uv.y - 0.5) / u_rate + 0.5;
+    // }
+    float f = fbm(uv * 2. + u_time / 50.);
+    f = fbm(uv * 2. + f * 20. * (1. - u_progress / 10.));
 
-    float c = 0.;
 
-    if (uv.x < 0.5) {
-        c = 1.;
-    }
-    gl_FragColor = vec4(img);
+    float prog = u_progress * f + u_progress;
+    prog = clamp(prog, 0., 1.);
+    
+    vec4 img1 = texture2D(u_texture1, uv * (1. - prog / 10.));
+    vec4 img2 = texture2D(u_texture2, uv * (1. - (1. - prog)/10.));
+
+    prog = smoothstep(0.3, 0.7, prog);
+    vec4 res = img1 * prog + img2 * (1. - prog);
+
+    gl_FragColor = vec4(res);
 }
 
-// y = mod(x,0.5); // x по модулю 0.5
-// y = fract(x); // возвращает дробную часть аргумента
-// y = ceil(x);  // ближайшее целое, большее либо равное x
-// y = floor(x); // ближайшее целое, меньшее либо равное x
-// y = sign(x);  // знак x
-// y = abs(x);   // абсолютное значение x
-// y = clamp(x,0.0,1.0); // ограничение x промежутком от 0.0 до 1.0
-// y = min(0.0,x);   // меньшее из x и 0.0
-// y = max(0.0,x);   // большее из x и 0.0 
-// float y = pow(x, 5.0)
+// fract(x); // возвращает дробную часть аргумента
+// ceil(x);  // ближайшее целое, большее либо равное x
+// floor(x); // ближайшее целое, меньшее либо равное x
+// sign(x);  // знак x
+// abs(x);   // абсолютное значение x
+// mod(x, 0.5); // x по модулю 0.5
+// min(0.0, x);   // меньшее из x и 0.0
+// max(0.0, x);   // большее из x и 0.0 
+// pow(x, 5.0); // степень
+// mix(x, y, a)
+// clamp(x, 0.0, 1.0); // ограничение x промежутком от 0.0 до 1.0
+// step( edge, x); 

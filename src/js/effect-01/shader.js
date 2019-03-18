@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import fragment from '../assets/glsl/fragment.glsl'
-import vertex from '../assets/glsl/vertex.glsl'
+import fragment from './glsl/fragment.glsl'
+import vertex from './glsl/vertex.glsl'
 
 const V2 = THREE.Vector2
 
@@ -26,10 +26,10 @@ let shader_material = new THREE.ShaderMaterial({
       value: new V2(window.innerWidth, window.innerHeight)
     },
     u_texture1: {
-      value: new THREE.TextureLoader().load(require('../assets/images/flowers.png'))
+      value: new THREE.TextureLoader().load(require('../../assets/images/cat.jpg'))
     },
     u_texture2: {
-      value: new THREE.TextureLoader().load(require('../assets/images/pan.jpg'))
+      value: new THREE.TextureLoader().load(require('../../assets/images/pan.jpg'))
     }
   },
   fragmentShader: fragment,

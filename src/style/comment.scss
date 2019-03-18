@@ -1,14 +1,15 @@
-.picture-canvas {
-  // left: 0;
+.comment {
   top: 0;
+  // right: 0;
   height: 100%;
   width: 50%;
-  // background-color: #ff4;
+  background-color: #cfc;
 }
 
 
 @media (max-width: 800px) {
-  .picture-canvas {
+  .comment {
     width: 100%;
+    // display: none;
   }
 }

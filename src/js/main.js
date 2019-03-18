@@ -1,52 +1,69 @@
 import '../style/style.scss'
 import * as THREE from 'three'
-import {shader_material} from './shader'
-import {scene, camera, renderer} from './engine'
+// import { shader_material } from './effect-01/shader'
+import { scene, camera, renderer } from './engine'
+import { create_blocks, blocks } from './block';
+import { loop } from './loop';
 
 const V2 = THREE.Vector2
-const canvas = document.querySelector('.main-canvas')
 
 
-const geometry = new THREE.PlaneGeometry( 1, 1, 2, 2 )
-const plane = new THREE.Mesh( geometry, shader_material )
-scene.add( plane )
-plane.position.set(0, 0, 0)
+window.onload = () => {
+  create_blocks()
+  resize()
+  loop()
+}
+// const canvas = document.querySelector('.picture-canvas')
 
 
-let time = 0
+// const geometry = new THREE.PlaneGeometry( 1, 1, 2, 2 )
+// const plane = new THREE.Mesh( geometry, shader_material )
+// scene.add( plane )
+// plane.position.set(0, 0, 0)
+// let progress_01 = 0
+// let mouse_on_01 = false
+
+
+// let time = 0
 
 
 const resize = () => {
-  var w = window.innerWidth
-  var h = window.innerHeight
-  const rate = w/h  
-  renderer.setSize( w, h )
-  camera.aspect = rate
-
-  let dist  = camera.position.z - plane.position.z
-  let height = 1
-  camera.fov = 2.*(180/Math.PI)*Math.atan(height/(2*dist))
-  shader_material.uniforms.u_rate.value = rate  
-
-  if(w/h>1) {
-    plane.scale.x = rate
-    // plane.scale.y = rate
+  for (let i = 0; i < blocks.length; i++) {
+    const canvas = blocks[i].renderer
+    var w = window.innerWidth
+    if (w < 800) {
+      canvas.setSize( w, w )
+    }
+    else {
+      canvas.setSize( w/2, w/2 )
+    }
   }
-  camera.updateProjectionMatrix()
 }
 
-const loop = () => {
-  shader_material.uniforms.u_time.value = time++
-  requestAnimationFrame( loop )
-  renderer.render( scene, camera )  
-}
+// const loop = () => {
+//   requestAnimationFrame( loop )
+//   shader_material.uniforms.u_time.value = time++
+//   renderer.render( scene, camera )
+//   if (progress_01 > 0 && !mouse_on_01) {
+//     progress_01 -= 0.02
+//   }
+//   if (progress_01 < 1 && mouse_on_01) {
+//     progress_01 += 0.08
+//   }
+//   shader_material.uniforms.u_progress.value = progress_01
+// }
 
 
 window.addEventListener('resize', resize)
-canvas.addEventListener('mousemove', (evt) => {
-  shader_material.uniforms.u_mouse.value = new V2(evt.x, evt.y)
-})
+// canvas.addEventListener('mousemove', (evt) => {
+//   shader_material.uniforms.u_mouse.value = new V2(evt.x, evt.y)
+// })
 
+// canvas.addEventListener('mouseover', () => {
+//   mouse_on_01 = true
+// })
+// canvas.addEventListener('mouseout', () => {
+//   mouse_on_01 = false
+// })
 
-resize()
-loop()
+// loop()
