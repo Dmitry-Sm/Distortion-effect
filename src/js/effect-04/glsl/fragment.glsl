@@ -72,6 +72,10 @@ float impulse( float k, float x ) {
     return h*exp(1.0-h);
 }
 
+vec2 cicle_uv(vec2 uv) {
+    return abs(1. - fract((uv + 1.)/2.) * 2.);
+}
+
 /*
                         d8b          
                         Y8P          
@@ -90,20 +94,48 @@ void main() {
     // if (u_rate > 1.) {
     //     uv.y = (uv.y - 0.5) / u_rate + 0.5;
     // }
-    float f = fbm(uv * 2. + u_time / 50.);
-    f = fbm(uv * 2. + f * 20. * (1. - u_progress / 10.));
+    // float f = fbm(uv * 2. + u_time / 50.);
+    // f = fbm(uv * 2. + f * 20. * (1. - u_progress / 10.));
 
 
-    float prog = u_progress * f + u_progress;
-    prog = clamp(prog, 0., 1.);
+    // float prog = u_progress * f + u_progress;
+    // prog = clamp(prog, 0., 1.);
+    float ofset = 0.1;
+    float colomns    = fract((uv.x + 0.25) * 16.);
+    float left_diag  = fract((uv.x + uv.y)* 8.);
+    float right_diag = fract((-uv.x + uv.y)* 8.);
     
-    vec4 img1 = texture2D(u_texture1, uv * (1. - (1. - prog) / 2.));
-    vec4 img2 = texture2D(u_texture2, uv * (1. - (prog)/2.));
+    colomns    = smoothstep(0., 0. + ofset, colomns)    - smoothstep(0.5, 0.5 + ofset, colomns);
+    left_diag  = smoothstep(0., 0. + ofset, left_diag)  - smoothstep(0.5, 0.5 + ofset, left_diag);
+    right_diag = smoothstep(0., 0. + ofset, right_diag) - smoothstep(0.5, 0.5 + ofset, right_diag);
 
-    prog = smoothstep(0.3, 0.7, prog);
+    float sum = colomns + left_diag + right_diag;
+    float s = 0.;
+    if (sum > 0.5 &&
+        sum < 1.5) {
+        s = sum;
+    }
+    if (sum > 2.5 &&
+        sum < 3.5) {
+        s = sum - 2.;
+    }
+    s = cos((sum) * PI) / 2. + 0.5;
+    s -= -3.;
+    s /= 22.;
+    // s = smoothstep(0.1, 0.2, fract(uv.x * 4.)) - 
+    //     smoothstep(0.8, 0.9, fract(uv.x * 4.));
+    
+    vec4 img1 = texture2D(u_texture1, cicle_uv(vec2(uv.x * (1. - s * (1. - u_progress)/2.) - (s * (1. - u_progress)), uv.y)));
+    vec4 img2 = texture2D(u_texture2, cicle_uv(vec2(uv.x * (1. - s * (u_progress)/2.) - (s * (u_progress)), uv.y)));
+
+    float prog = smoothstep(0.3, 0.7, u_progress);
     vec4 res = img1 * prog + img2 * (1. - prog);
 
+    float b = fract(uv.x / 4.) * 4.;
+    b = abs(1. - fract((uv.x + 1.)/2.) * 2. );
+
     gl_FragColor = vec4(res);
+    // gl_FragColor = vec4(colomns, left_diag, right_diag, 1.);
 }
 
 // fract(x); // возвращает дробную часть аргумента

@@ -1,15 +1,23 @@
 .comment {
-  top: 0;
+  // position: inherit;
   // right: 0;
-  height: 100%;
+  top: 0;
   width: 50%;
-  background-color: #cfc;
+  height: 100%;
+  padding: 5%;
+  box-sizing: border-box;
+
+  font-family: 'Hind Siliguri', sans-serif;
+  font-weight: 300;
+  font-size: 30px;
+  color: white;
 }
 
 
-@media (max-width: 800px) {
+
+@media only screen and (max-width: 500px) {
   .comment {
     width: 100%;
-    // display: none;
+    height: 50%;
   }
 }

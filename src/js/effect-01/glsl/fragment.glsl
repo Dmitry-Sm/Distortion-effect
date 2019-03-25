@@ -91,13 +91,17 @@ void main() {
     //     uv.y = (uv.y - 0.5) / u_rate + 0.5;
     // }
 
-    float prog = u_progress * fract(uv.y * 10. + (sin(uv.x * 50.) / 4.) + u_progress/4.) + u_progress;
+    float prog = u_progress * fract(uv.y * 10. + (sin(uv.x * 50. + sin(uv.y * 20.)) / 4. + u_time/10.) + u_progress/4.) + u_progress;
+    // float prog = u_progress * fract(uv.y * 10. + (sin(uv.x * 50.) / 4.) + u_progress/4.) + u_progress;
     prog = clamp(prog, 0., 1.);
-    // prog = step(prog, 0.5);
+    // prog = smoothstep(prog - 0.1, prog + 0.1, u_progress);
+    prog = smoothstep(0.2, 0.8, prog);
+    // prog = cos(prog * PI /2.);
     
-    vec4 img1 = texture2D(u_texture1, uv + (1. - prog)/25.);
-    vec4 img2 = texture2D(u_texture2, uv + prog/25.);
+    vec4 img1 = texture2D(u_texture1, uv * (1. - (1. - prog) / 15.));
+    vec4 img2 = texture2D(u_texture2, uv * (1. - prog / 15.));
 
+    prog = smoothstep(0.4, 0.6, prog);
     vec4 res = img1 * prog + img2 * (1. - prog);
 
     gl_FragColor = vec4(res);

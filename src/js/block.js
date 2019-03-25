@@ -2,44 +2,81 @@ import { create_engine } from "./engine";
 import { init_scene as effect_01 } from "./effect-01/scene";
 import { init_scene as effect_02 } from "./effect-02/scene";
 import { init_scene as effect_03 } from "./effect-03/scene";
+import { init_scene as effect_04 } from "./effect-04/scene";
+import { init_scene as effect_05 } from "./effect-05/scene";
 
 const container = document.querySelector('.container')
-
 const blocks = []
 
-const create_canvas_element = (name) => {
+const effects = [
+  {
+    name: 'Geometry_wawes',
+    discription: 'Geometry_wawes',
+    init: effect_01,
+    color: '#73FBD3'
+  },
+  {
+    name: 'Realistic_wawes',
+    discription: 'Realistic_wawes',
+    init: effect_02,
+    color: '#44E5E7'
+  },
+  {
+    name: 'Stripes',
+    discription: 'Realistic_wawes',
+    init: effect_03,
+    color: '#59D2FE'
+  },
+  {
+    name: 'Triangles',
+    discription: 'Realistic_wawes',
+    init: effect_04,
+    color: '#4A8FE7'
+  },
+  {
+    name: 'dont know yet',
+    discription: 'some',
+    init: effect_05,
+    color: '#235789'
+  }
+]
+
+
+const create_comment_element = (name, color, position) => {
   const element = document.createElement('div')
-
-  element.classList.add('block')
-  element.classList.add('block-' + name)
-
-  return element
-}
-
-const create_comment_element = () => {
-  const element = document.createElement('div')
+  element.innerHTML = name
+  element.style.backgroundColor = color
 
   element.classList.add('comment')
+  element.classList.add(position)
 
   return element
 }
 
-const create_block = (name, position, effect) => {
+
+const create_block = (effect, position) => {
   const engine = create_engine()
-  engine.element = create_canvas_element(name)
+  engine.element = document.createElement('div')
+  engine.element.classList.add('block')
+  engine.element.classList.add('block-' + position)
 
   if (position === 'left') {
     engine.element.appendChild(engine.renderer.domElement)
-    engine.element.appendChild(create_comment_element())
   }
-  else {
-    engine.element.appendChild(create_comment_element())
+  engine.element.appendChild(create_comment_element(effect.name, effect.color, position))
+  if (position === 'right') {
     engine.element.appendChild(engine.renderer.domElement)
   }
 
-  effect(engine)  
-  
-  blocks.push( engine )
+  const label = document.createElement('div')
+  label.classList.add('picture-canvas', 'canvas-label-' + position)
+  label.innerHTML = 'Effect - ' + effect.name
+  label.style.backgroundColor = 'rgba(0, 0, 0, 0.2)'
+  // label.style.background = 'linear-gradient( ' + effect.color + ' -40%, transparent 40%)';
+  // engine.element.appendChild(label)
+
+  effect.init(engine)  
+  blocks.push(engine)
 
   return engine.element
 }
@@ -47,9 +84,11 @@ const create_block = (name, position, effect) => {
 
 
 const create_blocks = () => {
-  container.appendChild(create_block('01', 'left' , effect_01))
-  container.appendChild(create_block('02', 'right', effect_02))
-  // container.appendChild(create_block('03', 'left' , effect_03))
+  container.appendChild(create_block(effects[4], 'right'))
+  container.appendChild(create_block(effects[3], 'left'))
+  container.appendChild(create_block(effects[2], 'right'))
+  container.appendChild(create_block(effects[1], 'left'))
+  container.appendChild(create_block(effects[0], 'right'))
   
 }
 

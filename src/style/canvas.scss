@@ -1,14 +1,19 @@
 .picture-canvas {
-  // left: 0;
   top: 0;
-  height: 100%;
-  width: 50%;
-  // background-color: #ff4;
+  width: 50% !important;
+  height: 100% !important;
+  max-width: 100%;
+
+  font-family: 'Dancing Script', cursive;
+  box-sizing: border-box;
+  color: white;
+  font-size: 30px;
 }
 
 
-@media (max-width: 800px) {
-  .picture-canvas {
-    width: 100%;
+
+@media only screen and (max-width: 500px) {
+  .canvas-label-left, .canvas-label-right{
+    height: 66.6666%
   }
 }

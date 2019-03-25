@@ -2,19 +2,26 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  top: 300px;
+  flex-wrap: nowrap;
+  top: 100px;
   left: 0;
+  right: 0;
   width: 100%;
-  min-width: 800px;
+  // min-width: 800px;
   height: 50vw;
-  background: #acc;
+  // padding: 40px;
+  // box-sizing: border-box;);
 }
 
 
 
-@media (max-width: 800px) {
+@media only screen and (max-width: 500px) {
   .block {
-    height: 100vw;
+    top: 40vh;
+    flex-direction: column;
+    height: 150vw;
+  }
+  .block-right {
+    flex-direction: column-reverse;
   }
 }

@@ -30,8 +30,17 @@ window.onload = () => {
 const resize = () => {
   for (let i = 0; i < blocks.length; i++) {
     const canvas = blocks[i].renderer
-    var w = window.innerWidth
-    if (w < 800) {
+    // let w = window.screen.width
+    let w = document.body.offsetWidth
+    // alert(document.body.offsetWidth)
+
+    // var w = window.innerWidth
+    // console.log('Width = ' + w)
+    
+    if (w > 800) {
+      w = 800
+    }
+    if (w < 500) {
       canvas.setSize( w, w )
     }
     else {

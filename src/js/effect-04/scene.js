@@ -29,14 +29,15 @@ const init_scene = (_engine) => {
 
 
 const update = () => {
+  // phone_update()
   shader_material.uniforms.u_time.value = time++
   shader_material.uniforms.u_progress.value = progress
   engine.renderer.render( engine.scene, engine.camera )
   if (progress > 0 && !mouse_on) {
-    progress += (0. - progress) * 0.03
+    progress += (0. - progress) * 0.04
   }
   if (progress < 1 && mouse_on) {
-    progress += (1. - progress) * 0.04
+    progress += (1. - progress) * 0.08
   }
   if (progress > 1) {
     progress = 1
@@ -46,6 +47,25 @@ const update = () => {
   }
 }
 
+let k = 0
+const phone_update = () => {
+  if (k++ > 40) {
+    k = 0
+
+    var scrollHeight = Math.max(
+      document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight,
+      document.body.clientHeight, document.documentElement.clientHeight
+    );
+
+    // console.log(scrollHeight, window.pageYOffset)
+    // console.log(window.pageYOffset)
+    const bounds = engine.renderer.domElement.getBoundingClientRect()
+    const center = (bounds.bottom + bounds.top)/2
+    // console.log(center - window.innerHeight/2)
+    
+  }
+}
 
 
 // return update
