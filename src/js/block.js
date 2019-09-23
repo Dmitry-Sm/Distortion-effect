@@ -13,31 +13,25 @@ const effects = [
     name: 'Geometry_wawes',
     discription: 'Geometry_wawes',
     init: effect_01,
-    color: '#73FBD3'
+    color: '#66554E'
   },
   {
     name: 'Realistic_wawes',
     discription: 'Realistic_wawes',
     init: effect_02,
-    color: '#44E5E7'
+    color: '#869675'
   },
   {
     name: 'Stripes',
     discription: 'Realistic_wawes',
     init: effect_03,
-    color: '#59D2FE'
+    color: '#585B73'
   },
   {
     name: 'Triangles',
     discription: 'Realistic_wawes',
     init: effect_04,
-    color: '#4A8FE7'
-  },
-  {
-    name: 'dont know yet',
-    discription: 'some',
-    init: effect_05,
-    color: '#235789'
+    color: '#728D84'
   }
 ]
 
@@ -84,7 +78,6 @@ const create_block = (effect, position) => {
 
 
 const create_blocks = () => {
-  container.appendChild(create_block(effects[4], 'right'))
   container.appendChild(create_block(effects[3], 'left'))
   container.appendChild(create_block(effects[2], 'right'))
   container.appendChild(create_block(effects[1], 'left'))

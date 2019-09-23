@@ -33,10 +33,10 @@ const update = () => {
   shader_material.uniforms.u_progress.value = progress
   engine.renderer.render( engine.scene, engine.camera )
   if (progress > 0 && !mouse_on) {
-    progress += (0. - progress) * 0.01
+    progress += (0. - progress) * 0.02
   }
   if (progress < 1 && mouse_on) {
-    progress += (1. - progress) * 0.03
+    progress += (1. - progress) * 0.02
   }
   if (progress > 1) {
     progress = 1

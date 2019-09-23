@@ -37,8 +37,8 @@ const resize = () => {
     // var w = window.innerWidth
     // console.log('Width = ' + w)
     
-    if (w > 800) {
-      w = 800
+    if (w > 1024) {
+      w = 1024
     }
     if (w < 500) {
       canvas.setSize( w, w )
