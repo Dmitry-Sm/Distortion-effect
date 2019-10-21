@@ -1,4 +1,5 @@
-import '../style/style.scss'
+import './modules/polyfill'
+
 import * as THREE from 'three'
 // import { shader_material } from './effect-01/shader'
 import { scene, camera, renderer } from './engine'
