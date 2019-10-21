@@ -9,11 +9,11 @@ import { loop } from './loop';
 const V2 = THREE.Vector2
 
 
-window.onload = () => {
+window.addEventListener('load', evt => {
   create_blocks()
   resize()
   loop()
-}
+})
 // const canvas = document.querySelector('.picture-canvas')
 
 
