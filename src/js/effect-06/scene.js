@@ -37,7 +37,7 @@ const update = () => {
     progress += (0. - progress) * 0.02
   }
   if (progress < 1 && mouse_on) {
-    progress += (1. - progress) * 0.06
+    progress += (1. - progress) * 0.04
   }
   if (progress > 1) {
     progress = 1

@@ -4,6 +4,7 @@ import { init_scene as effect_02 } from "./effect-02/scene";
 import { init_scene as effect_03 } from "./effect-03/scene";
 import { init_scene as effect_04 } from "./effect-04/scene";
 import { init_scene as effect_05 } from "./effect-05/scene";
+import { init_scene as effect_06 } from "./effect-06/scene";
 
 const container = document.querySelector('.container')
 const blocks = []
@@ -31,6 +32,18 @@ const effects = [
     name: 'Triangles',
     discription: 'Realistic_wawes',
     init: effect_04,
+    color: '#728D84'
+  },
+  {
+    name: 'Color',
+    discription: 'Color_mod',
+    init: effect_05,
+    color: '#728D84'
+  },
+  {
+    name: 'Circles',
+    discription: 'Circles',
+    init: effect_06,
     color: '#728D84'
   }
 ]
@@ -78,6 +91,8 @@ const create_block = (effect, position) => {
 
 
 const create_blocks = () => {
+  container.appendChild(create_block(effects[5], 'left'))
+  container.appendChild(create_block(effects[4], 'right'))
   container.appendChild(create_block(effects[3], 'left'))
   container.appendChild(create_block(effects[2], 'right'))
   container.appendChild(create_block(effects[1], 'left'))

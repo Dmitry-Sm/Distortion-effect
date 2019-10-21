@@ -101,70 +101,41 @@ void main() {
     // float prog = u_progress * f + u_progress;
     // prog = clamp(prog, 0., 1.);
     float ofset = 0.1;
-    float colomns    = fract((uv.x + 0.25) * 16.);
-    float left_diag  = fract((uv.x + uv.y)* 8.);
-    float right_diag = fract((-uv.x + uv.y)* 8.);
-    
-    colomns    = smoothstep(0., 0. + ofset, colomns)    - smoothstep(0.5, 0.5 + ofset, colomns);
-    left_diag  = smoothstep(0., 0. + ofset, left_diag)  - smoothstep(0.5, 0.5 + ofset, left_diag);
-    right_diag = smoothstep(0., 0. + ofset, right_diag) - smoothstep(0.5, 0.5 + ofset, right_diag);
-
-    float sum = colomns + left_diag + right_diag;
-    float s = 0.;
-    if (sum > 0.5 &&
-        sum < 1.5) {
-        s = sum;
-    }
-    if (sum > 2.5 &&
-        sum < 3.5) {
-        s = sum - 2.;
-    }
-    s = cos((sum) * PI) / 2. + 0.5;
-    s -= -3.;
-    s /= 22.;
     // s = smoothstep(0.1, 0.2, fract(uv.x * 4.)) - 
     //     smoothstep(0.8, 0.9, fract(uv.x * 4.));
-    float prog_r = smoothstep(0.1, 0.4, u_progress);
-    float prog_g = smoothstep(0.3, 0.6, u_progress);
-    float prog_b = smoothstep(0.5, 0.9, u_progress);
     
-    // vec2 uv_r = vec2(uv.x, uv.y);
-    // vec2 uv_g = vec2(uv.x, uv.y);
-    // vec2 uv_b = vec2(uv.x, uv.y);
-
-    // vec2 uv_r = vec2(uv.x, uv.y + 1. - prog_r);
-    // vec2 uv_g = vec2(uv.x + 1. - prog_g, uv.y);
-    // vec2 uv_b = vec2(uv.x + 1. - prog_b, uv.y + 1. - prog_b);
-    // vec2 uv_r = vec2(uv.x, uv.y + (1. - prog_r) * (1. - sin(uv.x * 12.)/4.));
-    // vec2 uv_g = vec2(uv.x + (1. - prog_g) * (1. - sin(uv.y * 12.)/4.), uv.y);
-    // vec2 uv_b = vec2(uv.x + (1. - prog_b) * (1. - sin(uv.x * 12.)/4.), uv.y + (1. - prog_b) * (1. - sin(uv.y * 12.)/4.));
-    // uv2.y *= max(0.5, smoothstep(0.1, 0.2, u_progress));
     vec4 img1 = texture2D(u_texture1, uv);
-    float img2tr = texture2D(u_texture2, uv).r;
-    float img2tg = texture2D(u_texture2, uv).g;
-    float img2tb = texture2D(u_texture2, uv).b;
-    
-    vec2 uv_r = vec2(uv.x + img2tr * sin(u_time/10.) * (1. - prog_r), uv.y + img2tr * 2. * sin(u_time/10.) * (1. - prog_r));
-    vec2 uv_g = vec2(uv.x + img2tg * sin(u_time/10.) * (1. - prog_g), uv.y - img2tg * 2. * sin(u_time/10.) * (1. - prog_g));
-    vec2 uv_b = vec2(uv.x - img2tb * sin(u_time/10.) * (1. - prog_b), uv.y + img2tb * 2. * sin(u_time/10.) * (1. - prog_b));
-    
-    // vec2 uv_r = vec2(uv.x, uv.y);
-    // vec2 uv_g = vec2(uv.x, uv.y);
-    // vec2 uv_b = vec2(uv.x, uv.y);
-
-    float img2r = texture2D(u_texture2, uv_r).r;
-    float img2g = texture2D(u_texture2, uv_g).g;
-    float img2b = texture2D(u_texture2, uv_b).b;
+    vec4 img2 = texture2D(u_texture2, uv);
 
     float prog = smoothstep(0.1, 0.8, u_progress);
-    // vec4 res = img1 * prog + img2 * (1. - prog);
-    vec4 res = vec4(0.);
-    res.r = mix(img1.r, img2r, prog_r);
-    res.g = mix(img1.g, img2g, prog_g);
-    res.b = mix(img1.b, img2b, prog_b);
 
     float b = fract(uv.x / 4.) * 4.;
     b = abs(1. - fract((uv.x + 1.)/2.) * 2. );
+
+    vec2 uvc = (uv - 0.5) * 25.;
+    vec2 st = fract(uvc) - 0.5;
+    vec2 id = floor(uvc);
+    float m = 0.;
+    float t = u_time/10.;
+
+    for (float y = -1.; y <= 1.; y++) {
+        for (float x = -1.; x <= 1.; x++) {
+            vec2 offs = vec2(x, y);
+            float d = length(st - offs);
+            float dist = (sin( 1. * length(id + offs) + t) * 0.5 + 0.5);
+
+            float r = mix(0.4, 1.6, dist);
+            m += smoothstep(r * prog, r * prog * 0.95, d);
+        }
+    }
+
+    // m = sin(m);
+    // res.rb = st;
+    // vec4 res = mix(img1, img2, 1. - prog);
+    m = max(mod(m, 2.), smoothstep(0.6, 1., u_progress));
+    vec4 res = mix(img1, img2, min(m, 1.));
+
+    // res = vec4(m);
 
     gl_FragColor = vec4(res);
     // gl_FragColor = vec4(colomns, left_diag, right_diag, 1.);
