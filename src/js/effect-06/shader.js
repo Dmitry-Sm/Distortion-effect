@@ -26,10 +26,10 @@ let shader_material = new THREE.ShaderMaterial({
       value: new V2(window.innerWidth, window.innerHeight)
     },
     u_texture1: {
-      value: new THREE.TextureLoader().load(require('../../assets/images/7a.jpg'))
+      value: new THREE.TextureLoader().load(require('../../assets/images/13a.jpg'))
     },
     u_texture2: {
-      value: new THREE.TextureLoader().load(require('../../assets/images/8a.jpg'))
+      value: new THREE.TextureLoader().load(require('../../assets/images/14a.jpg'))
     }
   },
   fragmentShader: fragment,

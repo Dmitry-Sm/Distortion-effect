@@ -77,15 +77,15 @@ vec2 cicle_uv(vec2 uv) {
 }
 
 /*
-                        d8b          
-                        Y8P          
-                                     
- 88888b.d88b.   8888b.  888 88888b.  
- 888 "888 "88b     "88b 888 888 "88b 
- 888  888  888 .d888888 888 888  888 
- 888  888  888 888  888 888 888  888 
- 888  888  888 "Y888888 888 888  888 
-                                     
+                        d8b
+                        Y8P
+
+ 88888b.d88b.   8888b.  888 88888b.
+ 888 "888 "88b     "88b 888 888 "88b
+ 888  888  888 .d888888 888 888  888
+ 888  888  888 888  888 888 888  888
+ 888  888  888 "Y888888 888 888  888
+
 */
 
 void main() {
@@ -101,9 +101,9 @@ void main() {
     // float prog = u_progress * f + u_progress;
     // prog = clamp(prog, 0., 1.);
     float ofset = 0.1;
-    // s = smoothstep(0.1, 0.2, fract(uv.x * 4.)) - 
+    // s = smoothstep(0.1, 0.2, fract(uv.x * 4.)) -
     //     smoothstep(0.8, 0.9, fract(uv.x * 4.));
-    
+
     vec4 img1 = texture2D(u_texture1, uv);
     vec4 img2 = texture2D(u_texture2, uv);
 
@@ -125,7 +125,7 @@ void main() {
             float dist = (sin( 1. * length(id + offs) + t) * 0.5 + 0.5);
 
             float r = mix(0.4, 1.6, dist);
-            m += smoothstep(r * prog, r * prog * 0.95, d);
+            m += smoothstep(max(0.0001, r * prog), max(0., r * prog) * 0.98, d);
         }
     }
 
@@ -148,8 +148,8 @@ void main() {
 // abs(x);   // абсолютное значение x
 // mod(x, 0.5); // x по модулю 0.5
 // min(0.0, x);   // меньшее из x и 0.0
-// max(0.0, x);   // большее из x и 0.0 
+// max(0.0, x);   // большее из x и 0.0
 // pow(x, 5.0); // степень
 // mix(x, y, a)
 // clamp(x, 0.0, 1.0); // ограничение x промежутком от 0.0 до 1.0
-// step( edge, x); 
+// step( edge, x);
