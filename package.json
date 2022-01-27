@@ -48,7 +48,7 @@
   "dependencies": {
     "animejs": "^3.0.1",
     "normalize.css": "8.0.1",
-    "three": "^0.106.2",
+    "three": "^0.137.0",
     "three-orbit-controls": "^82.1.0",
     "three-orbitcontrols": "^2.102.1"
   }
